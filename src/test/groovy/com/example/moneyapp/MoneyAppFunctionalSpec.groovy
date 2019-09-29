@@ -1,6 +1,5 @@
 package com.example.moneyapp
 
-import static io.micronaut.http.MediaType.TEXT_PLAIN
 import com.example.moneyapp.adapters.controller.account.dto.AddAccountDto
 import com.example.moneyapp.adapters.controller.transfer.dto.MakeTransferDto
 import com.example.moneyapp.adapters.repository.account.AccountRepository
@@ -59,7 +58,7 @@ class MoneyAppFunctionalSpec extends Specification {
 
         and: "User can request and see changes in his accounts and transfers"
         String retrieveAccounts = client.toBlocking()
-                .retrieve(HttpRequest.GET("/account/1").contentType(TEXT_PLAIN))
+                .retrieve(HttpRequest.GET("/account/1"))
         def retrieveAccountsJson = new JsonSlurper().parseText(retrieveAccounts)
 
         retrieveAccountsJson[0].id == 0
@@ -74,7 +73,7 @@ class MoneyAppFunctionalSpec extends Specification {
 
         when: "user tries to delete the account with outstanding balance"
         client.toBlocking()
-                .exchange(HttpRequest.DELETE("/account/1/1").contentType(TEXT_PLAIN))
+                .exchange(HttpRequest.DELETE("/account/1/1"))
 
         then: "he sees the error message"
         HttpClientResponseException e = thrown()
@@ -88,16 +87,16 @@ class MoneyAppFunctionalSpec extends Specification {
 
         and: "user deletes both accounts"
         client.toBlocking()
-                .exchange(HttpRequest.DELETE("/account/1/0").contentType(TEXT_PLAIN))
+                .exchange(HttpRequest.DELETE("/account/1/0"))
         client.toBlocking()
-                .exchange(HttpRequest.DELETE("/account/1/1").contentType(TEXT_PLAIN))
+                .exchange(HttpRequest.DELETE("/account/1/1"))
 
         then: "there are no accounts in the system for this user"
         accountRepository.findAllByUserId(1).empty
 
         and: "user doesn't see any accounts if he requests for them"
         String retrieveAccountsAgain = client.toBlocking()
-                .retrieve(HttpRequest.GET("/account/1").contentType(TEXT_PLAIN))
+                .retrieve(HttpRequest.GET("/account/1"))
         def retrieveAccountsAgainJson = new JsonSlurper().parseText(retrieveAccountsAgain)
         retrieveAccountsAgainJson.size() == 0
     }

@@ -1,7 +1,6 @@
 package com.example.moneyapp.adapters.repository.account;
 
 import com.example.moneyapp.domain.Account;
-import io.micronaut.context.annotation.Replaces;
 import javax.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
