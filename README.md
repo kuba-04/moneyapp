@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/kuba-04/moneyapp.svg?branch=master)](https://travis-ci.com/kuba-04/moneyapp)
+
 # moneyapp
 
 This simple app allows you to create accounts and transfer money between them.
